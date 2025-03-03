@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BYTEX AVIATOR PINK PRO</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-image: url('https://dl.dropboxusercontent.com/scl/fi/opptdtk92bl4jvw6t31yq/IMG-20250218-WA0007.jpg?rlkey=4br287q5onf9v4myjb7usbk1d&st=rhx8f9zt');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+        .gradient-text {
+            font-size: 2.5em;
+            background: linear-gradient(45deg, #FF5733, #33FF57, #3357FF, #F333FF);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            color: transparent;
+            animation: gradient 5s ease infinite;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+        }
+
+        select {
+            width: 32%;
+            padding: 10px;
+            margin: 5px 0;
+            box-sizing: border-box;
+            color: red;
+            font-weight: bold;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 1.5em;
+            color: red;
+            font-weight: bold;
+        }
+
+        .time-label {
+            color: blue;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .live-time {
+            font-size: 1.5em;
+            color: red;
+            font-weight: bold;
+            margin-top: 20px;
+        }
+
+        .next-time {
+            margin-top: 10px;
+            font-size: 1.5em;
+            color: red;
+            font-weight: bold;
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="gradient-text">SRI LANKA SERVER CONNECTED</div>
+        <h1>BYTEX AVIATOR PINK PRO</h1>
+
+        <div class="live-time" id="live-time">Loading current time...</div>
+
+        <label>AVIATOR BYTEX PINK FIRST TIME:</label><br>
+        <select id="h1"></select> <span class="time-label">Hours</span> :
+        <select id="m1"></select> <span class="time-label">Minutes</span> :
+        <select id="s1"></select> <span class="time-label">Seconds</span>
+
+        <br><br>
+
+        <label>AVIATOR BYTEX PINK SECOND TIME:</label><br>
+        <select id="h2"></select> <span class="time-label">Hours</span> :
+        <select id="m2"></select> <span class="time-label">Minutes</span> :
+        <select id="s2"></select> <span class="time-label">Seconds</span>
+
+        <br><br>
+        
+        <button onclick="calculateTime()">Calculate</button>
+
+        <div class="result" id="result"></div>
+    </div>
+
+    <script>
+        function updateLiveTime() {
+            const now = new Date();
+            const date = now.toLocaleDateString();
+            const time = now.toLocaleTimeString();
+            document.getElementById("live-time").innerText = `LIVE: ${date} ${time}`;
+        }
+
+        setInterval(updateLiveTime, 1000);
+
+        function populateSelect(id, start, end) {
+            let select = document.getElementById(id);
+            for (let i = start; i <= end; i++) {
+                let option = document.createElement("option");
+                option.value = i;
+                option.text = i.toString().padStart(2, '0');
+                select.appendChild(option);
+            }
+        }
+
+        populateSelect("h1", 0, 23);
+        populateSelect("h2", 0, 23);
+        populateSelect("m1", 0, 59);
+        populateSelect("m2", 0, 59);
+        populateSelect("s1", 0, 59);
+        populateSelect("s2", 0, 59);
+
+        function calculateTime() {
+            let h1 = parseInt(document.getElementById("h1").value);
+            let m1 = parseInt(document.getElementById("m1").value);
+            let s1 = parseInt(document.getElementById("s1").value);
+
+            let h2 = parseInt(document.getElementById("h2").value);
+            let m2 = parseInt(document.getElementById("m2").value);
+            let s2 = parseInt(document.getElementById("s2").value);
+
+            let totalSeconds1 = h1 * 3600 + m1 * 60 + s1;
+            let totalSeconds2 = h2 * 3600 + m2 * 60 + s2;
+
+            let difference = Math.abs(totalSeconds1 - totalSeconds2);
+            let nextTotalSeconds = totalSeconds2 + difference + 60;
+
+            let nextH = String(Math.floor(nextTotalSeconds / 3600) % 24).padStart(2, '0');
+            let nextM = String(Math.floor((nextTotalSeconds % 3600) / 60)).padStart(2, '0');
+            let nextS = String(nextTotalSeconds % 60).padStart(2, '0');
+
+            let nextTime = `Next Time: ${nextH}:${nextM}:${nextS}`;
+            document.getElementById('result').innerHTML = `<div class="next-time">${nextTime}</div>`;
+        }
+    </script>
+</body>
+</html>
